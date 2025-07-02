@@ -49,26 +49,9 @@ function App() {
   const fetchMyDonations = async () => {
     if (contract) {
       const [values, dates] = await contract.myDonations();
-      console.log("dates",dates);
-console.log("dates[0]",dates[0])
-	    const dateInSeconds = Number(dates[0]);
-const date = new Date(dateInSeconds);
-
-
-//const date = new Date(dateInSeconds * 1000);
-const localizedDateString = date.toLocaleString();
-console.log("localizeddatestring",localizedDateString);
-
-//        date: new Date(dates[idx].toNumber() * 1000).toLocaleString()
-
-// worked....        date: localizedDateString
-
-
-	    const formatted = values.map((val, idx) => ({
-       
-
-		    value: ethers.formatEther(val),
-        date: new Date(Number(dates[idx]) * 1000).toLocaleString() 
+      const formatted = values.map((val, idx) => ({
+        value: ethers.formatEther(val),
+        date: new Date(dates[idx].toNumber() * 1000).toLocaleString()
       }));
       setMyDonations(formatted);
     }
@@ -78,7 +61,7 @@ console.log("localizeddatestring",localizedDateString);
     <div className="p-6 max-w-xl mx-auto">
 
           <h2 className="text-2xl font-bold">{details.name}</h2>
-          <img src={"/logo512.png"} alt="Fundraiser" className="w-full h-64 object-cover" />
+          <img src={details.imageURL} alt="Fundraiser" className="w-full h-64 object-cover" />
           <p>{details.description}</p>
           <p><strong>Total Donations:</strong> {details.totalDonations} ETH</p>
           <p><strong>Donation Count:</strong> {details.donationsCount}</p>

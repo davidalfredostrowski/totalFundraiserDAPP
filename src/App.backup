@@ -1,0 +1,125 @@
+import React,{ useState, useEffect } from 'react'
+import { ethers, BrowserProvider } from "ethers";
+import { providers } from 'ethers/providers';
+import GamingAbi from './contractsData/Fundraiser.json'
+import GamingAddress from './contractsData/Fundraiser-address.json'
+
+function App() {
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [details, setDetails] = useState({});
+  const [donationAmount, setDonationAmount] = useState("");
+  const [myDonations, setMyDonations] = useState([]);
+
+  useEffect(() => {
+     // Connect to Ethereum
+    const initialize = async () => {
+      //const web3Provider = new ethers.JsonRpcProvider("http://ec2-34-219-119-44.us-west-2.compute.amazonaws.com:8545");
+       //const web3Provider = new BrowserProvider(window.ethereum);
+       setProvider(web3Provider);
+       const signer = await web3Provider.getSigner(0);
+       const FundraiserContract = new ethers.Contract(FundraiserAddress.address, FundraiserAbi.abi, signer);
+       setContract(FundraiserContract);
+      setProvider(prov);
+        setSigner(sign);
+        setContract(fundraiser);
+
+        const name = await fundraiser.name();
+        const url = await fundraiser.url();
+        const imageURL = await fundraiser.imageURL();
+        const description = await fundraiser.description();
+        const totalDonations = await fundraiser.totalDonations();
+        const donationsCount = await fundraiser.donationsCount();
+
+        setDetails({ name, url, imageURL, description, totalDonations: ethers.utils.formatEther(totalDonations), donationsCount });
+    };
+ });
+    initialize();
+  }, [FundraiserAddress, FundraiserAbi]);
+
+
+
+export default function FundraiserApp() {
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [details, setDetails] = useState({});
+  const [donationAmount, setDonationAmount] = useState("");
+  const [myDonations, setMyDonations] = useState([]);
+
+  useEffect(() => {
+    const init = async () => {
+      if (window.ethereum) {
+        const prov = new ethers.providers.Web3Provider(window.ethereum);
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        const sign = prov.getSigner();
+        const fundraiser = new ethers.Contract(fundraiserAddress, fundraiserABI, sign);
+
+        setProvider(prov);
+        setSigner(sign);
+        setContract(fundraiser);
+
+        const name = await fundraiser.name();
+        const url = await fundraiser.url();
+        const imageURL = await fundraiser.imageURL();
+        const description = await fundraiser.description();
+        const totalDonations = await fundraiser.totalDonations();
+        const donationsCount = await fundraiser.donationsCount();
+
+        setDetails({ name, url, imageURL, description, totalDonations: ethers.utils.formatEther(totalDonations), donationsCount });
+      }
+    };
+    init();
+  }, []);
+
+  const donate = async () => {
+    if (contract && donationAmount) {
+      const tx = await contract.donate({ value: ethers.utils.parseEther(donationAmount) });
+      await tx.wait();
+      alert("Donation successful!");
+    }
+  };
+
+  const fetchMyDonations = async () => {
+    if (contract) {
+      const [values, dates] = await contract.myDonations();
+      const formatted = values.map((val, idx) => ({
+        value: ethers.utils.formatEther(val),
+        date: new Date(dates[idx].toNumber() * 1000).toLocaleString()
+      }));
+      setMyDonations(formatted);
+    }
+  };
+
+  return (
+    <div className="p-6 max-w-xl mx-auto">
+
+          <h2 className="text-2xl font-bold">{details.name}</h2>
+          <img src={details.imageURL} alt="Fundraiser" className="w-full h-64 object-cover" />
+          <p>{details.description}</p>
+          <p><strong>Total Donations:</strong> {details.totalDonations} ETH</p>
+          <p><strong>Donation Count:</strong> {details.donationsCount}</p>
+
+          <input
+            type="text"
+            className="border rounded p-2 w-full"
+            placeholder="Amount in ETH"
+            value={donationAmount}
+            onChange={(e) => setDonationAmount(e.target.value)}
+          />
+          <Button onClick={donate}>Donate</Button>
+
+          <Button variant="outline" onClick={fetchMyDonations}>Show My Donations</Button>
+          {myDonations.length > 0 && (
+            <ul>
+              {myDonations.map((don, idx) => (
+                <li key={idx}>Donated {don.value} ETH on {don.date}</li>
+              ))}
+            </ul>
+          )}
+
+    </div>
+  );
+}
+
