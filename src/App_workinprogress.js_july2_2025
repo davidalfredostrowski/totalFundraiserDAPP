@@ -2,25 +2,12 @@ import React,{ useState, useEffect } from 'react'
 import { ethers, BrowserProvider } from "ethers";
 import { providers } from 'ethers/providers';
 
-//import { Card, CardContent}  from "react-bootstrap/Card";
+
 //import { Button } from "@/components/ui/button";
-//import { Card, CardContent } from "@/components/ui/card";
-// Can't resolve '@/components/ui/card' 
-import { Card, CardContent } from "./components/ui/card";
-//import { Button } from "./components/ui/button";
-
-
-
+import { Card, CardContent } from "@/components/ui/card";
 
 import FundraiserAbif from './contractsData/FundraiserFactory.json'
 import FundraiserAddressf from './contractsData/FundraiserFactory-address.json'
-
-import FundraiserAbi from './contractsData/Fundraiser.json'
-import FundraiserAddress from './contractsData/Fundraiser-address.json'
-
-
-
-
 
 function App() {
   const [provider, setProvider] = useState(null);
@@ -41,63 +28,40 @@ function App() {
   useEffect(() => {
      // Connect to Ethereum
     const initialize = async () => {
-      const web3Provider = new ethers.JsonRpcProvider("http://ec2-54-213-85-19.us-west-2.compute.amazonaws.com:8545");
+      const web3Provider = new ethers.JsonRpcProvider("http://ec2-54-184-95-166.us-west-2.compute.amazonaws.com:8545");
        //const web3Provider = new BrowserProvider(window.ethereum);
        setProvider(web3Provider);
        const signer = await web3Provider.getSigner(0);
 
-  const factoryInstance = new ethers.Contract(FundraiserAddressf.address, FundraiserAbif.abi, signer);
+  const factoryInstance = new ethers.Contract(factoryAddress, factoryABI, sign);
 
-    //    setProvider(prov);
-        setSigner(signer);
+        setProvider(prov);
+        setSigner(sign);
         setFactory(factoryInstance);
 
         const count = await factoryInstance.fundraisersCount();
         const data = [];
-     
-console.log("count = > ",count);
-
-	    for (let i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++) {
           const addr = await factoryInstance.getFundraiserAt(i);
-   //         const Fundraiser = await ethers.getContractFactory("Fundraiser");
- // const fundraiser = Fundraiser.attach(addr);
-//console.log(await fundraiser.name())
-console.log("addr =" ,addr);
-
-
-
-	const fundraiser = new ethers.Contract(addr, FundraiserAbi.abi, signer);
+          const fundraiser = new ethers.Contract(addr, fundraiserABI, prov);
           const name = await fundraiser.name();
           const imageURL = await fundraiser.imageURL();
           const description = await fundraiser.description();
           const totalDonations = await fundraiser.totalDonations();
 
-          data.push({ addr, name, imageURL, description, totalDonations: ethers.formatEther(totalDonations) });
+          data.push({ addr, name, imageURL, description, totalDonations: ethers.utils.formatEther(totalDonations) });
         }
         setFundraisers(data);
       }
    // };
-    initialize();
+    init();
   },  [FundraiserAddressf, FundraiserAbif]);
 
 
   const createFundraiser = async () => {
-console.log("within create creatFund....");
-	  
-
-	  const { name, url, imageURL, description, beneficiary } = form;
-	  console.log("name  = ", name);
-
-
-
-	  if (!factory || !name || !beneficiary) return;
-  console.log("just before the call to create fundraiser")
-
-
-
-        const count = await factory.fundraisersCount();
-console.log("count = ",count);
-	  const tx = await factory.createFundraiser(name, url, imageURL, description, signer);  // beneficiary);
+    const { name, url, imageURL, description, beneficiary } = form;
+    if (!factory || !name || !beneficiary) return;
+    const tx = await factory.createFundraiser(name, url, imageURL, description, beneficiary);
     await tx.wait();
     alert("Fundraiser created!");
     window.location.reload();
@@ -114,7 +78,7 @@ console.log("count = ",count);
           <input placeholder="Image URL" className="w-full border p-2" value={form.imageURL} onChange={(e) => setForm({ ...form, imageURL: e.target.value })} />
           <input placeholder="Description" className="w-full border p-2" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
           <input placeholder="Beneficiary Address" className="w-full border p-2" value={form.beneficiary} onChange={(e) => setForm({ ...form, beneficiary: e.target.value })} />
-          <button onClick={createFundraiser}>Create</button>
+          <Button onClick={createFundraiser}>Create</Button>
         </CardContent>
       </Card>
 
