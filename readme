@@ -1,0 +1,250 @@
+
+> const signers = await ethers.getSigners();
+undefined
+> const contract =  await ethers.getContractFactory("Fundraiser")
+
+> const name =  "Beneficiary Name";
+undefined
+> name
+'Beneficiary Name'
+>
+> const name =  "Beneficiary Name";
+undefined
+> name
+'Beneficiary Name'
+>   const url = "beneficiaryname.org";
+undefined
+>   const imageURL = "https://placekitten.com/600/350";
+undefined
+>   const description = "Beneficiary description";
+undefined
+>  const beneficiary = signers[1];
+undefined
+> const owner = signers[0];
+undefined
+> const fundraiser = await contract.deploy(name,url,imageURL,description, beneficiary, owner);
+undefined
+
+
+
+
+
+
+
+
+> const contract2 =  await ethers.getContractFactory("FundraiserFactory")
+
+
+> const fundraiserfactory = await contract2.deploy();
+
+
+> const fundraisers = await fundraiserfactory.createFundraiser(name, url, imageURL, description,beneficiary)
+
+
+> const name2 =  "Beneficiary Name222222";
+
+> const fundraisers2 = await fundraiserfactory.createFundraiser(name2, url, imageURL, description,beneficiary)
+
+
+
+
+
+
+
+aiser.sol  FundraiserFactory.sol  FundraiserFactory.sol_backup
+ubuntu@ip-172-31-34-73:~/fund/contracts$ vi FundraiserFactory.sol
+ubuntu@ip-172-31-34-73:~/fund/contracts$ cd ..
+ubuntu@ip-172-31-34-73:~/fund$ npx hardhat console --network localhost
+Welcome to Node.js v22.16.0.
+Type ".help" for more information.
+> const contract2 =  await ethers.getContractFactory("FundraiserFactory")
+undefined
+> const fundraiserfactory = await contract2.deploy();
+undefined
+> const name =  "Beneficiary Name";
+undefined
+>  const url = "beneficiaryname.org";
+undefined
+> const imageURL = "https://placekitten.com/600/350";
+undefined
+> const description = "Beneficiary description";
+undefined
+> const beneficiary = signers[1];
+Uncaught ReferenceError: signers is not defined
+>  const owner = signers[0];
+Uncaught ReferenceError: signers is not defined
+> const signers = await ethers.getSigners();
+undefined
+> const beneficiary = signers[1];
+Uncaught SyntaxError: Identifier 'beneficiary' has already been declared
+> const beneficiary1 = signers[1];
+undefined
+>  const owner1 = signers[0];
+undefined
+> const fundraisers = await fundraiserfactory.createFundraiser(name, url, imageURL, description,beneficiary)
+Uncaught ReferenceError: beneficiary is not defined
+    at REPL28:1:127
+> const fundraisers = await fundraiserfactory.createFundraiser(name, url, imageURL, description,beneficiary1)
+Uncaught SyntaxError: Identifier 'fundraisers' has already been declared
+> const fundraisers1 = await fundraiserfactory.createFundraiser(name, url, imageURL, description,beneficiary1)
+undefined
+> const fundraisers2 = await fundraiserfactory.createFundraiser(name, url, imageURL, description,beneficiary1)
+undefined
+> const fundraiserAddr = await fundraiserFactory.getFundraiserAt(1);
+Uncaught ReferenceError: fundraiserFactory is not defined
+    at REPL32:1:36
+> let fundraiserAddr = await fundraiserfactory.getFundraiserAt(1);
+Uncaught SyntaxError: Identifier 'fundraiserAddr' has already been declared
+> let fundraiserAddr2 = await fundraiserfactory.getFundraiserAt(1);
+undefined
+>  const Fundraiser = await ethers.getContractFactory("Fundraiser");
+undefined
+> const fundraiser3 = Fundraiser.attach(fundraiserAddr2);
+undefined
+> await fundraiser3.name()
+'Beneficiary Name'
+> await fundraiserfactory.createFundraiser("save the puppies", url, imageURL, description,beneficiary1)
+ContractTransactionResponse {
+  provider: HardhatEthersProvider {
+    _hardhatProvider: LazyInitializationProviderAdapter {
+      _providerFactory: [AsyncFunction (anonymous)],
+      _emitter: [EventEmitter],
+      _initializingPromise: [Promise],
+      provider: [BackwardsCompatibilityProviderAdapter]
+    },
+    _networkName: 'localhost',
+    _blockListeners: [],
+    _transactionHashListeners: Map(0) {},
+    _eventListeners: []
+  },
+  blockNumber: 9,
+  blockHash: '0xf081aca14d955bbd592dbafd41bfb8d7ef1b55260162799aca0fd3879872e287',
+  index: undefined,
+  hash: '0x167459127739ac894c14405c00af49ce2b2cc6bce4bff19d194d8f521776bfb6',
+  type: 2,
+  to: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+  from: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+  nonce: 8,
+  gasLimit: 30000000n,
+  gasPrice: 432067934n,
+  maxPriorityFeePerGas: 102437218n,
+  maxFeePerGas: 432067934n,
+  maxFeePerBlobGas: null,
+  data: '0x11d752ad00000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000120000000000000000000000000000000000000000000000000000000000000016000000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c800000000000000000000000000000000000000000000000000000000000000107361766520746865207075707069657300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001362656e65666963696172796e616d652e6f726700000000000000000000000000000000000000000000000000000000000000000000000000000000000000001f68747470733a2f2f706c6163656b697474656e2e636f6d2f3630302f33353000000000000000000000000000000000000000000000000000000000000000001742656e6566696369617279206465736372697074696f6e000000000000000000',
+  value: 0n,
+  chainId: 31337n,
+  signature: Signature { r: "0xeaa1e3d54e3562423c664459f785ea0c2bf97e2319b2603b868af63f28aac31a", s: "0x7f3b03023fd6f362c71defe1ae2725f0e7bd1b53c06281cd42b7b930e556baee", yParity: 1, networkV: null },
+  accessList: [],
+  blobVersionedHashes: null,
+  authorizationList: null
+}
+> let fundraiserAddr2 = await fundraiserfactory.getFundraiserAt(3);
+Uncaught SyntaxError: Identifier 'fundraiserAddr2' has already been declared
+> let fundraiserAddr3 = await fundraiserfactory.getFundraiserAt(3);
+Uncaught:
+ProviderError: Error: VM Exception while processing transaction: reverted with panic code 0x32 (Array accessed at an out-of-bounds or negative index)
+    at HttpProvider.request (/home/ubuntu/fund/node_modules/hardhat/src/internal/core/providers/http.ts:116:21)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at staticCallResult (/home/ubuntu/fund/node_modules/ethers/src.ts/contract/contract.ts:337:22)
+    at staticCall (/home/ubuntu/fund/node_modules/ethers/src.ts/contract/contract.ts:303:24)
+    at Proxy.getFundraiserAt (/home/ubuntu/fund/node_modules/ethers/src.ts/contract/contract.ts:351:41)
+    at REPL59:1:61
+    at node:repl:640:29
+> let fundraiserAddr4 = await fundraiserfactory.getFundraiserAt(2);
+undefined
+> const fundraiser4 = Fundraiser.attach(fundraiserAddr4);
+undefined
+> await fundraiser4.name()
+'save the puppies'
+> await fundraiser4.donate({value: ethers.parseEther(donationAmount)})
+Uncaught ReferenceError: donationAmount is not defined
+    at REPL82:1:84
+> await fundraiser4.donate({value: ethers.parseEther(1.0)})
+Uncaught:
+TypeError: value must be a string (argument="value", value=1, code=INVALID_ARGUMENT, version=6.14.4)
+    at makeError (/home/ubuntu/fund/node_modules/ethers/src.ts/utils/errors.ts:691:21)
+    at assert (/home/ubuntu/fund/node_modules/ethers/src.ts/utils/errors.ts:719:25)
+    at assertArgument (/home/ubuntu/fund/node_modules/ethers/src.ts/utils/errors.ts:731:5)
+    at parseUnits (/home/ubuntu/fund/node_modules/ethers/src.ts/utils/units.ts:64:19)
+    at Proxy.parseEther (/home/ubuntu/fund/node_modules/ethers/src.ts/utils/units.ts:90:12)
+    at REPL83:1:73 {
+  code: 'INVALID_ARGUMENT',
+  argument: 'value',
+  value: 1,
+  shortMessage: 'value must be a string'
+}
+> await fundraiser4.donate({value: ethers.parseEther("1.0)})
+...
+> await fundraiser4.donate({value: ethers.parseEther("1.0")})
+ContractTransactionResponse {
+  provider: HardhatEthersProvider {
+    _hardhatProvider: LazyInitializationProviderAdapter {
+      _providerFactory: [AsyncFunction (anonymous)],
+      _emitter: [EventEmitter],
+      _initializingPromise: [Promise],
+      provider: [BackwardsCompatibilityProviderAdapter]
+    },
+    _networkName: 'localhost',
+    _blockListeners: [],
+    _transactionHashListeners: Map(0) {},
+    _eventListeners: []
+  },
+  blockNumber: 10,
+  blockHash: '0x158f31fb415b8653c72477a88a7ff408939cadcc1544b1a6b13b47b0e97c18d4',
+  index: undefined,
+  hash: '0xe0dd547d07fba18c358ff36e63d9e8110a3224146cf40aa9828561def84c5610',
+  type: 2,
+  to: '0x8EFa1819Ff5B279077368d44B593a4543280e402',
+  from: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+  nonce: 9,
+  gasLimit: 30000000n,
+  gasPrice: 382481291n,
+  maxPriorityFeePerGas: 90680924n,
+  maxFeePerGas: 382481291n,
+  maxFeePerBlobGas: null,
+  data: '0xed88c68e',
+  value: 1000000000000000000n,
+  chainId: 31337n,
+  signature: Signature { r: "0x3cee7a4956231733ab7e261f52dfc60cd6ebb48bcf1207854f49fb67475153c8", s: "0x63208333195ae51f44a0b19ec67a611befe236936a92987e1898a97855ec972d", yParity: 1, networkV: null },
+  accessList: [],
+  blobVersionedHashes: null,
+  authorizationList: null
+}
+> await fundraiser4.donate({value: ethers.parseEther("1.0")})
+ContractTransactionResponse {
+  provider: HardhatEthersProvider {
+    _hardhatProvider: LazyInitializationProviderAdapter {
+      _providerFactory: [AsyncFunction (anonymous)],
+      _emitter: [EventEmitter],
+      _initializingPromise: [Promise],
+      provider: [BackwardsCompatibilityProviderAdapter]
+    },
+    _networkName: 'localhost',
+    _blockListeners: [],
+    _transactionHashListeners: Map(0) {},
+    _eventListeners: []
+  },
+  blockNumber: 11,
+  blockHash: '0x974add053c894602b707559fc5e00680d210aa6f38dcdd7326cf41d10fdc3d83',
+  index: undefined,
+  hash: '0xd66b7f3277c1d501929adcf402fb189fff68482462e66fccb17688f22158ef78',
+  type: 2,
+  to: '0x8EFa1819Ff5B279077368d44B593a4543280e402',
+  from: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
+  nonce: 10,
+  gasLimit: 30000000n,
+  gasPrice: 335098479n,
+  maxPriorityFeePerGas: 80273851n,
+  maxFeePerGas: 335098479n,
+  maxFeePerBlobGas: null,
+  data: '0xed88c68e',
+  value: 1000000000000000000n,
+  chainId: 31337n,
+  signature: Signature { r: "0xadd62e0c114404f549d31dc8efed01cc682c9bd3ac1a31f5759d9374489decd8", s: "0x4513e03091d1d49ecd63dd868b211ac9d8ad2d46b5b0cdc10a070c3454f8cf3b", yParity: 0, networkV: null },
+  accessList: [],
+  blobVersionedHashes: null,
+  authorizationList: null
+}
+> await fundraiser4.totalDonations()
+2000000000000000000n
+>
